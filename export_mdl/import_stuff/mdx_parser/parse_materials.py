@@ -36,12 +36,12 @@ def parse_materials(data: bytes, version: int) -> List[War3Material]:
 
             for _ in range(layers_count):
                 layer = parse_layers(r, version)
-                if layer.multi_texture_ids:
-                    material.is_hd = 1000 <= version
+                if layer.multi_texture_ids: # mdx1100 stuff
+                    material.is_hd = layer.hd_flag == 1
                     for texture_id in layer.multi_texture_ids:
                         newLayer = War3Layer()
-                        newLayer.texture_id = layer.multi_texture_ids[texture_id]
-                        newLayer.texture_path = layer.texture_path
+                        newLayer.texture_id = texture_id
+                        newLayer.texture_path = str(newLayer.texture_id)
                         newLayer.texture = layer.texture
                         newLayer.filter_mode = layer.filter_mode
                         newLayer.unshaded = layer.unshaded

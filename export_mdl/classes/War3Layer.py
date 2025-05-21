@@ -20,6 +20,7 @@ class War3Layer:
         self.no_depth_test: bool = False
         self.no_depth_set: bool = False
         self.multi_texture_ids: Optional[List[int]] = None
+        self.hd_flag: Optional[int] = None # MDX1100 only
 
     def __eq__(self, other):
         if isinstance(self, other.__class__):

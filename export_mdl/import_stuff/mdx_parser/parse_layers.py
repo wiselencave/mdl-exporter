@@ -96,7 +96,7 @@ def parse_layers(r: Reader, version: int) -> War3Layer:
         layer.fresnel_team_color = r.getf('<f')[0]
 
     if 1000 < version:
-        hdFlag = r.getf('<I')[0]
+        layer.hd_flag = r.getf('<I')[0]
         numTextures: int = r.getf('<I')[0]
 
         # print("numTextures:", numTextures)
@@ -114,7 +114,7 @@ def parse_layers(r: Reader, version: int) -> War3Layer:
                 layer.texture_anim = parse_timeline(r, '<I')
             else:
                 textureSlot = r.getf('<I')[0]
-                layer.multi_texture_ids.append(textureSlot)
+                layer.multi_texture_ids.append(animOrTextureId)
                 # print("Texture:", i, "textureSlot", textureSlot, ", textureID: ", animOrTextureId)
             i += 1
 
