@@ -15,3 +15,6 @@ class VIEW_MT_war3_add(bpy.types.Menu):
         layout.operator(WAR3_OT_create_eventobject.bl_idname)
         layout.operator(WAR3_OT_create_collision_shape.bl_idname)
         layout.operator(WAR3_OT_add_anim_sequence.bl_idname)
+
+def draw_war3_menu(self, context):
+    self.layout.menu("VIEW_MT_war3_add")

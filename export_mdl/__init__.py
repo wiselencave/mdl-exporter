@@ -65,6 +65,7 @@ from .ui.WAR3_UL_material_layer_list import WAR3_UL_material_layer_list
 from .ui.WAR3_UL_sequence_list import WAR3_UL_sequence_list
 from .ui.WAR3_PT_Armature_Sequences import WAR3_PT_Armature_Sequences
 from .ui.WAR3_MT_sequence_context_menu import WAR3_MT_sequence_context_menu
+from .ui.VIEW3D_MT_war3_add import VIEW_MT_war3_add, draw_war3_menu
 from .properties.War3BillboardProperties import War3BillboardProperties
 from .properties.War3EventProperties import War3EventProperties
 from .properties.War3LightSettings import War3LightSettings
@@ -143,7 +144,8 @@ ui_classes = (
     WAR3_PT_material_panel,
     WAR3_PT_particle_editor_panel,
     WAR3_PT_light_panel,
-    WAR3_PT_Armature_Sequences
+    WAR3_PT_Armature_Sequences,
+    VIEW_MT_war3_add
 )
 
 
@@ -180,6 +182,7 @@ def register():
     for cls in ui_classes:
         # print("\t", cls)
         register_class(cls)
+    bpy.types.VIEW3D_MT_add.append(draw_war3_menu)
         
     bpy.types.TOPBAR_MT_file_export.append(menu_func)
     bpy.types.TOPBAR_MT_file_import.append(menu_import_mdx)
