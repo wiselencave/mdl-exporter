@@ -236,3 +236,6 @@ ENCODINGS = {
     'EUC_KR': 'euc_kr',
     'EUC_JP': 'euc_jp',
 }
+
+EVENT_PREFIXES = {"SND", "UBR", "FTP", "SPL", "MRF", "MRD"}
+EVENT_TRACK_NAMES = ('["event_track"]', '["eventtrack"]', '["EventTrack"]')

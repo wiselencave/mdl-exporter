@@ -1,5 +1,5 @@
 from bpy.types import UIList, UILayout, Context
-
+from ..properties.War3SequencesProperties import IGNORED_MARKERS, IGNORED_MARK
 
 class WAR3_UL_sequence_list(UIList):
     # def draw_item(self,
@@ -15,7 +15,8 @@ class WAR3_UL_sequence_list(UIList):
     def draw_item(self, context: Context, layout: UILayout, data, item, icon: int, active_data, propname) -> None:
         if self.layout_type in {'DEFAULT', 'COMPACT'}:
             # layout.prop(item, "name", text="", emboss=False, icon='TIME')
-            layout.prop(item, "name", text="", emboss=False)
+            display_name = f"{item.name} {IGNORED_MARK}" if item.seq_name.upper() in IGNORED_MARKERS else item.name
+            layout.label(text=display_name, icon='TIME')
         elif self.layout_type in {'GRID'}:
             layout.alignment = 'CENTER'
             # layout.label(text="", icon_value='TIME')

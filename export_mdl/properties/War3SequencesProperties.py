@@ -5,10 +5,17 @@ from bpy.app.handlers import persistent
 
 from ..properties.War3SequenceProperties import War3SequenceProperties
 
+IGNORED_MARKERS = ["MRF", "MRF_START"] # upper case
+IGNORED_MARK = "(not exported)"
+
 
 def set_current_sequence(prop: 'War3SequencesProperties', context: bpy.types.Context):
-    bpy.context.scene.frame_start = prop.mdl_sequences[prop.mdl_sequence_index].start
-    bpy.context.scene.frame_end = prop.mdl_sequences[prop.mdl_sequence_index].end
+    sequences = prop.mdl_sequences
+    index = prop.mdl_sequence_index
+
+    if 0 <= index < len(sequences):
+        context.scene.frame_start = sequences[index].start
+        context.scene.frame_end = sequences[index].end
 
 
 class War3SequencesProperties(bpy.types.PropertyGroup):
@@ -75,10 +82,10 @@ def sequence_changed_handler(self):
                 s.non_looping = True
 
     for sequence in sequences.values():
-        if sequence.seq_name not in markers:
+        if sequence.seq_name not in markers or len(markers[sequence.seq_name]) != 2:
             index = sequences.find(sequence.seq_name)
             if index <= war3_mdl_sequences.mdl_sequence_index:
-                war3_mdl_sequences.mdl_sequence_index = index - 1
+                war3_mdl_sequences.mdl_sequence_index = max(index - 1, 0)
             sequences.remove(index)
 
     context.window_manager.mdl_sequence_refreshing = False

@@ -93,7 +93,7 @@ from .operators.WAR3_OT_generate_from_actions import WAR3_OT_generate_from_actio
 from .operators.WAR3_OT_move_seq_in_list import WAR3_OT_move_seq_in_list
 
 bl_info = {
-    "name": "Warcraft MDL Exporter",
+    "name": "Warcraft MDL Exporter [MRF Edition]",
     "author": "Kalle Halvarsson (& twilac)",
     'version': (0, 0, 1),
     "blender": (2, 80, 0),

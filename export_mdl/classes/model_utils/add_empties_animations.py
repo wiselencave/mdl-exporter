@@ -16,6 +16,7 @@ from ..bpy_helpers.BpyEmptyNode import BpyEmptyNode
 from export_mdl.classes.animation_curve_utils.transform_rot import transform_rot
 from export_mdl.classes.animation_curve_utils.transform_vec import transform_vec1
 from ...utils import calc_extents
+from ...constants import EVENT_TRACK_NAMES
 
 
 def get_object_node(sequences: List[War3AnimationAction],
@@ -88,7 +89,8 @@ def get_event(sequences: List[War3AnimationAction],
     event_obj = War3EventObject(obj_name, -1, pivot, None, bpy_empty_node.parent_name, anim_loc, anim_rot, anim_scale,
                                 bpy_empty_node.bpy_obj.matrix_basis)
     event_obj.track = None
-    for datapath in ('["event_track"]', '["eventtrack"]', '["EventTrack"]'):
+
+    for datapath in EVENT_TRACK_NAMES:
         track = get_wc3_animation_curve(datapath, actions, 1, sequences, global_seqs)
         if track is not None:
             event_obj.track = track

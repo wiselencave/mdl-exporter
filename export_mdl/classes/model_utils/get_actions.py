@@ -3,6 +3,8 @@ from typing import List, Tuple
 import bpy
 from ..War3AnimationAction import War3AnimationAction
 from ...properties.War3SequenceProperties import War3SequenceProperties
+from ...properties.War3SequencesProperties import IGNORED_MARKERS
+from ...constants import EVENT_TRACK_NAMES
 
 
 def get_actions(f2ms: float, bpy_actions: List[bpy.types.Action], use_actions: bool,
@@ -24,11 +26,19 @@ def get_actions(f2ms: float, bpy_actions: List[bpy.types.Action], use_actions: b
                 actions.append(action)
     else:
         for mdl_sequence in mdl_sequences:
+            if mdl_sequence.seq_name.upper() in IGNORED_MARKERS:
+                continue
             sequence = War3AnimationAction(mdl_sequence.seq_name, mdl_sequence.start, mdl_sequence.end,
                                            mdl_sequence.non_looping, mdl_sequence.move_speed, mdl_sequence.rarity)
             sequences.append(sequence)
         if bpy_actions:
             actions.append(bpy_actions[0])
+            
+            for action in bpy_actions:
+                for fc in action.fcurves:
+                    if fc.data_path in EVENT_TRACK_NAMES:
+                        if action not in actions:
+                            actions.append(action)
 
     if len(sequences) == 0:
         sequences.append(War3AnimationAction("Stand", 0, bpy.context.scene.render.fps))

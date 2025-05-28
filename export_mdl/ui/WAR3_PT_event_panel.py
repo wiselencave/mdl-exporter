@@ -53,3 +53,8 @@ class WAR3_PT_event_panel(Panel):
         row.label(text="Event ID")
         op = row.operator("object.search_eventid", text="", icon='VIEWZOOM')
         row.prop(events, "event_id", text="")
+
+        layout.separator()
+
+        box = layout.box()
+        box.label(text="MRF and MRD types can be set manually", icon='INFO')

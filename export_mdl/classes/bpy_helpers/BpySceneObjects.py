@@ -12,6 +12,7 @@ from .BpyLight import BpyLight
 from ..War3ExportSettings import War3ExportSettings
 from ..model_utils.get_bpy_mesh import get_bpy_mesh, get_bpy_curve_mesh
 from ...properties import War3SequenceProperties, War3ParticleSystemProperties
+from ...constants import EVENT_PREFIXES, EVENT_TRACK_NAMES
 
 
 # This is a helper class to collect all relevant blender objects in preparation for saving
@@ -96,6 +97,11 @@ class BpySceneObjects:
                 self.actions.append(self.armatures[0].animation_data.action)
             elif len(bpy.data.actions):
                 self.actions.append(bpy.data.actions[0])
+            
+            for action in bpy.data.actions: # Find event tracks
+                if any(fc.data_path in EVENT_TRACK_NAMES for fc in action.fcurves):
+                    self.actions.append(action)
+
             self.sequences.extend(scene.war3_mdl_sequences.mdl_sequences)
 
     def parse_bpy_objects(self, bpy_obj: bpy.types.Object, global_matrix: Matrix):
@@ -138,10 +144,7 @@ class BpySceneObjects:
             print("empty, mat:", bpy_obj.matrix_world)
             print("mat is mat:", isinstance(bpy_obj.matrix_world, Matrix))
             print("mat is list:", isinstance(bpy_obj.matrix_world, List))
-            if obj_name.startswith("SND") \
-                    or obj_name.startswith("UBR") \
-                    or obj_name.startswith("FTP") \
-                    or obj_name.startswith("SPL"):
+            if any(obj_name.startswith(prefix) for prefix in EVENT_PREFIXES):
                 self.events.append(BpyEmptyNode(bpy_obj, global_matrix))
             elif bpy_obj.type == 'EMPTY' and obj_name.startswith('Collision'):
                 self.collisions.append(BpyEmptyNode(bpy_obj, global_matrix))
