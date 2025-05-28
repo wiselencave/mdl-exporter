@@ -33,7 +33,7 @@ class WAR3_OT_export_mdl(Operator, ExportHelper):
             name="Scale",
             min=0.01,
             max=1000.0,
-            default=1,
+            default=50.0,
             )
 
     optimize_animation: BoolProperty(
