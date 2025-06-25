@@ -41,7 +41,7 @@ class BpyGeoset:
                     vertex = bpy_mesh.vertices[vert_index]
                     vert_int_s = "%s, " % vert_index
                     pos_s = "%s, %s, %s, " % tuple(vertex.undeformed_co)
-                    norm_s = "%s, %s, %s, " % tuple(vertex.normal)
+                    norm_s = "%s, %s, %s, " % tuple(bpy_mesh.loops[loop].normal)
                     mesh_uv_layers = bpy_mesh.uv_layers
                     uv: List[float] = [0.0, 0.0] \
                         if not len(mesh_uv_layers) \
@@ -60,7 +60,7 @@ class BpyGeoset:
                         self.vertex_map[vertex_key] = len(self.vertex_list)
                         self.vertex_list.append(vertex)
                         self.pos_list.append(vertex.undeformed_co)
-                        self.normal_list.append(vertex.normal)
+                        self.normal_list.append(bpy_mesh.loops[loop].normal)
                         self.tangent_list.append(tangent)
                         self.uv_list.append(uv)
                         vertex_groups: List[bpy.types.VertexGroupElement] = sorted(vertex.groups[:], key=lambda x: x.weight, reverse=True)
